@@ -5,7 +5,15 @@ This is the code of paper
 *Zhihao Shi, Xize Liang, Jie Wang.* ICLR 2023. [[arXiv](https://arxiv.org/abs/2302.00924)]
 [[ICLR-Official](https://openreview.net/forum?id=5VBBA91N6n)]
 
-## Dependencies
+## Dependencies (Patched)
+- Python 3.6
+- PyTorch 1.8.0 (CUDA 11.1)
+- torch-geometric 2.0.3
+- ogb 1.3.6
+- hydra-core 1.3.2
+
+
+## Dependencies (Previous)
 - Python 3.7
 - PyTorch 1.9.0
 - torch-geometric 1.7.2
@@ -20,7 +28,7 @@ To compile the subgraph sampling codes in the `csrc` directory, run the followin
 
 ```shell script
 cd code
-python setup.py
+pip install -e .
 ```
 
 ### 2. Reproduce the Results 
@@ -29,6 +37,10 @@ please run the following commands.
 
 ```shell script
 CUDA_VISIBLE_DEVICES=0 python main_large.py dataset=arxiv  model=gcn  model.json='[PATH of CODE]/json/gcn/arxiv/variant.json'
+```
+OR run,
+```shell script
+./scripts/run.sh gcn arxiv 0
 ```
 
 ## Citation

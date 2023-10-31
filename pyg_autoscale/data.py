@@ -39,6 +39,16 @@ def get_coauthor(root: str, name: str) -> Tuple[Data, int, int]:
         data.y, 20, 30, 20)
     return data, dataset.num_features, dataset.num_classes
 
+
+def get_amazon(root: str, name: str) -> Tuple[Data, int, int]:
+    dataset = Amazon(f'{root}/Amazon', name, transform=T.ToSparseTensor())
+    data = dataset[0]
+    torch.manual_seed(12345)
+    data.train_mask, data.val_mask, data.test_mask = gen_masks(
+        data.y, 20, 30, 20)
+    return data, dataset.num_features, dataset.num_classes
+
+
 def get_arxiv(root: str) -> Tuple[Data, int, int]:
     dataset = PygNodePropPredDataset('ogbn-arxiv', f'{root}/OGB',
                                      pre_transform=T.ToSparseTensor())
@@ -84,8 +94,7 @@ def get_reddit(root: str) -> Tuple[Data, int, int]:
     return data, dataset.num_features, dataset.num_classes
 
 
-def get_ppi(split: str = 'train') -> Tuple[Data, int, int]:
-    root = os.path.expanduser('~/datasets')
+def get_ppi(root: str, split: str = 'train') -> Tuple[Data, int, int]:
     dataset = PPI(f'{root}/PPI', split=split, pre_transform=T.ToSparseTensor())
     data = Batch.from_data_list(dataset)
     data.batch = None
@@ -110,7 +119,7 @@ def get_data(name: str) -> Tuple[Data, int, int]:
     elif name.lower() in ['coauthorcs', 'coauthorphysics']:
         return get_coauthor(root, name[8:])
     elif name.lower() in ['amazon',]:
-        return get_amazon(root,)
+        return get_amazon(root, 'computers') # or 'photos'
     elif name.lower() == 'wikics':
         return get_wikics(root)
     elif name.lower() in ['cluster', 'pattern']:
@@ -118,7 +127,7 @@ def get_data(name: str) -> Tuple[Data, int, int]:
     elif name.lower() == 'reddit':
         return get_reddit(root)
     elif name.lower() == 'ppi':
-        return get_ppi()
+        return get_ppi(root)
     elif name.lower() == 'flickr':
         return get_flickr(root)
     elif name.lower() == 'yelp':

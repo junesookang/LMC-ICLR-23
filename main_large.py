@@ -223,7 +223,8 @@ def main(conf):
             exit()
 
     params = conf.model.params
-    logger.configure(dir='./log_dir/', format_strs=['stdout','log','csv','tensorboard'])
+    # Removed Tensorboard due to mismatched Tensorflow version
+    logger.configure(dir='./log_dir/', format_strs=['stdout','log','csv'])
     dict_conf = yaml.safe_load(OmegaConf.to_yaml(conf))
     logger.save_conf(dict_conf)
     try:

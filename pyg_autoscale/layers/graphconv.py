@@ -1,5 +1,6 @@
 
 import torch
+import torch.nn.functional as F
 from torch import nn, Tensor
 
 from torch_sparse import SparseTensor
@@ -40,10 +41,15 @@ class MaskGCNConv(GCNConv):
                              size=None)
 
         if batch_size is None:
-            out = out @ self.weight
+            out = self.lin(out)
+            # Extended to latest PyG GCNConv
+            # out = out @ self.weight
         else:
-            out1 = out[:batch_size] @ self.weight
-            out2 = out[batch_size:] @ self.weight.detach()
+            out1 = self.lin(out[:batch_size])
+            out2 = F.linear(out[batch_size:], self.lin.weight.detach(), bias=None)
+            # Extended to latest PyG GCNConv
+            # out1 = out[:batch_size] @ self.weight
+            # out2 = out[batch_size:] @ self.weight.detach()
             out = torch.cat([out1,out2], dim=0)
 
         if self.bias is not None:
