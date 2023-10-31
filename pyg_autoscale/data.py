@@ -112,8 +112,7 @@ def get_sbm(root: str, name: str) -> Tuple[Data, int, int]:
     return data, dataset.num_features, dataset.num_classes
 
 
-def get_data(name: str) -> Tuple[Data, int, int]:
-    root = os.path.expanduser('~/datasets')
+def get_data(root:str, name: str) -> Tuple[Data, int, int]:
     if name.lower() in ['cora', 'citeseer', 'pubmed']:
         return get_planetoid(root, name)
     elif name.lower() in ['coauthorcs', 'coauthorphysics']:

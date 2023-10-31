@@ -40,7 +40,11 @@ CUDA_VISIBLE_DEVICES=0 python main_large.py dataset=arxiv  model=gcn  model.json
 ```
 OR run,
 ```shell script
-./scripts/run.sh gcn arxiv 0
+# Run from variant.json with the given model and dataset
+./scripts/run_variant.sh gcn arxiv 0
+
+# Run from conf_large with given model and dataset
+./scripts/run.sh gcn products 0
 ```
 
 ## Citation

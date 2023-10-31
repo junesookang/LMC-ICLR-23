@@ -1,7 +1,7 @@
 #!/bin/bash
 
 model=${1:-gcn}
-dataset=${2:-products}
+dataset=${2:-arxiv}
 device=${3:-0}
 
 echo "Model: "$model
@@ -10,6 +10,14 @@ echo "GPU: "$device
 
 storage='/ssd_dataset/graph_dataset'
 echo 'Storage: '$storage
+
+current_path=`pwd`
+json_path=$current_path/json/$model/$dataset/variant.json
+
+if [ ! -f $json_path ]; then
+    echo "No such json path: "$json_path
+    exit 1
+fi
 
 date=`date '+%Y-%m-%d-%H-%M-%S'`
 #echo "date: "$date
@@ -23,4 +31,5 @@ fi
 CUDA_VISIBLE_DEVICES=$device python main_large.py \
     model=$model \
     dataset=$dataset \
-    root=$storage # 2>&1 | tee -a -i $log_file
+    root=$storage \
+    model.json=$json_path # 2>&1 | tee -a -i $log_file

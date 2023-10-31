@@ -237,7 +237,7 @@ def main(conf):
 
     t = time.perf_counter()
     logger.log('Loading data...',)
-    data, in_channels, out_channels = get_data(conf.dataset.name)
+    data, in_channels, out_channels = get_data(conf.root, conf.dataset.name)
     logger.log(f'Done! [{time.perf_counter() - t:.2f}s]')
 
     perm, ptr = eval(conf.model.partition)(data.adj_t, num_parts=params.num_parts, log=True)
